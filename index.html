@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Erika Ramirez – Digital Card</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{--bg:#f3f6fb;--card:#fff;--ink:#0f1b2d;--mute:#5b6b82;--acc:#2563eb;--acc2:#06b6d4;--line:#e2e8f0;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1020;--card:#111a2e;--ink:#eaf0fb;--mute:#93a3bd;--line:#223052}}
+:root[data-theme="dark"]{--bg:#0a1020;--card:#111a2e;--ink:#eaf0fb;--mute:#93a3bd;--line:#223052}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px 16px;background:radial-gradient(circle at 20% 0%,rgba(37,99,235,.18),transparent 45%),radial-gradient(circle at 90% 100%,rgba(6,182,212,.18),transparent 45%),var(--bg);color:var(--ink);font-family:'Sora',system-ui,sans-serif}
+.card{width:100%;max-width:400px;background:var(--card);border:1px solid var(--line);border-radius:28px;overflow:hidden;box-shadow:0 24px 60px rgba(15,27,45,.18)}
+.top{height:110px;background:linear-gradient(135deg,var(--acc),var(--acc2))}
+.avatar{width:96px;height:96px;border-radius:50%;margin:-48px auto 0;display:grid;place-items:center;font-size:32px;font-weight:700;color:#fff;background:linear-gradient(135deg,#1e3a8a,var(--acc));border:5px solid var(--card)}
+.body{padding:14px 24px 26px;text-align:center}
+h1{margin:10px 0 2px;font-size:24px}
+.role{margin:0;color:var(--acc);font-weight:600;font-size:14px}
+.tag{margin:6px 0 18px;color:var(--mute);font-size:13px}
+.links{display:grid;gap:10px;text-align:left}
+.links a{display:flex;gap:12px;align-items:center;padding:13px 14px;border:1px solid var(--line);border-radius:14px;color:var(--ink);text-decoration:none;font-size:14px;transition:.2s}
+.links a:hover{border-color:var(--acc);transform:translateY(-2px)}
+.links span.i{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:rgba(37,99,235,.12);font-size:16px}
+.links small{display:block;color:var(--mute);font-size:11px}
+.tabs{display:flex;gap:6px;margin:22px 0 12px;background:var(--bg);padding:4px;border-radius:12px}
+.tabs button{flex:1;border:0;padding:9px;border-radius:9px;background:none;color:var(--mute);font:600 12px 'Sora',sans-serif;cursor:pointer}
+.tabs button.on{background:var(--card);color:var(--acc);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+#qr{display:inline-block;padding:12px;background:#fff;border-radius:16px;border:1px solid var(--line)}
+#qr img,#qr canvas{display:block}
+.hint{font-size:12px;color:var(--mute);margin:10px 0 0}
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="top"></div>
+  <div class="avatar">ER</div>
+  <div class="body">
+    <h1>Erika Ramirez</h1>
+    <p class="role">IT Support · Infrastructure</p>
+    <p class="tag">Keeping networks, systems &amp; IP addresses running smoothly.</p>
+    <div class="links">
+      <a href="tel:09936090730"><span class="i">📞</span><div>09936090730<small>Mobile</small></div></a>
+      <a href="mailto:erag.ramirez.sjc@phinmaed.com"><span class="i">✉️</span><div>erag.ramirez.sjc@phinmaed.com<small>Email</small></div></a>
+      <a href="https://www.linkedin.com/in/erikajoyramirez/" target="_blank" rel="noopener"><span class="i">💼</span><div>LinkedIn<small>erikajoyramirez</small></div></a>
+      <a id="pf" href="#" target="_blank" rel="noopener"><span class="i">🌐</span><div>My Portfolio<small>Resume · Skills · Photography</small></div></a>
+    </div>
+    <div class="tabs">
+      <button id="t1" class="on">Save contact</button>
+      <button id="t2">Open portfolio</button>
+    </div>
+    <div id="qr"></div>
+    <p class="hint" id="hint">Scan with your phone camera to add me to contacts.</p>
+  </div>
+</main>
+<script>
+// ✏️ After publishing portfolio.html, paste its link here:
+var PORTFOLIO_URL = "https://yowkay1-art.github.io/portfolio-/";
+var vcard = "BEGIN:VCARD\nVERSION:3.0\nN:Ramirez;Erika;;;\nFN:Erika Ramirez\nTITLE:IT Support - Infrastructure\nTEL;TYPE=CELL:09936090730\nEMAIL:erag.ramirez.sjc@phinmaed.com\nURL:https://www.linkedin.com/in/erikajoyramirez/\nEND:VCARD";
+var box = document.getElementById("qr"), qr;
+function draw(text){
+  box.innerHTML = "";
+  try { qr = new QRCode(box, {text:text, width:200, height:200, correctLevel:QRCode.CorrectLevel.M}); }
+  catch(e){ box.textContent = "QR unavailable"; }
+}
+var pf = document.getElementById("pf");
+if (PORTFOLIO_URL) pf.href = PORTFOLIO_URL; else pf.style.display = "none";
+function pick(n){
+  document.getElementById("t1").classList.toggle("on", n===1);
+  document.getElementById("t2").classList.toggle("on", n===2);
+  if (n===1){ draw(vcard); hint.textContent = "Scan with your phone camera to add me to contacts."; }
+  else { draw(PORTFOLIO_URL || "https://www.linkedin.com/in/erikajoyramirez/"); hint.textContent = PORTFOLIO_URL ? "Scan to view my portfolio." : "Portfolio link not set yet – this opens my LinkedIn."; }
+}
+var hint = document.getElementById("hint");
+document.getElementById("t1").onclick = function(){pick(1)};
+document.getElementById("t2").onclick = function(){pick(2)};
+pick(1);
+</script>
+</body>
+</html>
